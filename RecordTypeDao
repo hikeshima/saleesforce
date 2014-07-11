@@ -1,0 +1,37 @@
+public with sharing class RecordTypeDao {
+ 
+  private static RecordTypeDao me;
+  private Map rMap;
+ 
+  private RecordTypeDao() {
+    rMap = new Map();
+    rNameMap = new Map();
+ 
+    for( RecordType rType : [Select ID , Name , Description , sObjectType , DeveloperName From RecordType LIMIT 1000] ) {
+      rMap.put( rType.sObjectType + ':' + rType.DeveloperName , rType );
+    }
+  }
+ 
+  public static RecordTypeDao getInstance() {
+    if( me != null ) {
+      return( me );
+    }
+ 
+    me = new RecordTypeDao();
+    return( me );
+  }
+ 
+  public Id getRecordTypeId( String objectName , String typeName ) {
+    if( rMap != null ) {
+      RecordType rType = rMap.get( objectName + ':' + typeName );
+      if( rType != null ) {
+        Id objectId = rType.Id;
+        return( objectId );
+      }
+ 
+      return( null );
+    } else {
+      return( null );
+    }
+  }
+}
