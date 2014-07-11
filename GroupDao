@@ -1,6 +1,6 @@
 public with sharing class GroupDao {
 
-  List groups;
+  List<Group> groups;
   private static GroupDao me;
 
   private GroupDao() {
