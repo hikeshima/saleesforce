@@ -1,0 +1,25 @@
+public with sharing class GroupDao {
+
+  List groups;
+  private static GroupDao me;
+
+  private GroupDao() {
+  }
+
+  public static GroupDao getInstance() {
+    if( me == null ) {
+      me = new GroupDao();
+    }
+
+    return( me );
+  }
+
+  public List getRoleAndSubordinates() {
+    if( this.groups != null ) {
+      return( this.groups );
+    }
+
+    this.groups = [Select Id , Name , RELATEDID , Type From Group Where Type = :'RoleAndSubordinates'];
+    return( this.groups );
+  }
+}
